@@ -6,8 +6,9 @@ let colorInput = document.getElementById('color');
 let sizeSelect = document.getElementById('size');
 let caseSelect = document.getElementById('case');
 let contentRadios = document.querySelectorAll('input[name="content"]');
+// let alignRadios = document.querySelectorAll('input[name="align"]');
 let clearButton = document.querySelector('.button.clear');
-const textboxes = document.querySelectorAll("input[type='text']");
+let textboxes = document.querySelectorAll("input[type='text']");
 let selectedTextbox = null
 let main = document.querySelector(".main")
 let paras = main.querySelectorAll("p")
@@ -85,6 +86,15 @@ textboxes.forEach(textbox => {
             textbox.style.textAlign = radio.value;
         });
     });
+
+    // alignRadios.forEach(alRadio => {
+    //     alRadio.addEventListener('change', () => {
+    //         if (selectedTextbox) {
+    //             selectedTextbox.style.display = 'flex'
+    //             selectedTextbox.style.alignItems = alRadio.value;
+    //         }
+    //     });
+    // });
 })
 
 clearButton.addEventListener('click', () => {
