@@ -7,111 +7,91 @@ let sizeSelect = document.getElementById('size');
 let caseSelect = document.getElementById('case');
 let contentRadios = document.querySelectorAll('input[name="content"]');
 let clearButton = document.querySelector('.button.clear');
-let lettersButton = document.querySelector('.button.letters');
-let wordsButton = document.querySelector('.button.words');
-let textarea = document.querySelector('textarea');
+const textboxes = document.querySelectorAll("input[type='text']");
+let selectedTextbox = null
+let main = document.querySelector(".main")
+let paras = main.querySelectorAll("p")
 
-let saveTextAreaToLocalStorage = () => {
-    localStorage.setItem('savedTextArea', textarea.value);
-};
-
-let renderSavedTextArea = () => {
-    let savedValue = localStorage.getItem('savedTextArea');
-    if (savedValue) {
-        textarea.value = savedValue;
-    }
-};
-
-boldCheckbox.addEventListener('change', () => {
-    textarea.style.fontWeight = boldCheckbox.checked ? 'bold' : 'normal';
-});
-
-italicCheckbox.addEventListener('change', () => {
-    textarea.style.fontStyle = italicCheckbox.checked ? 'italic' : 'normal';
-});
-
-underlineCheckbox.addEventListener('change', () => {
-    textarea.style.textDecoration = underlineCheckbox.checked ? 'underline' : 'none';
-});
-
-fontSelect.addEventListener('change', () => {
-    if (fontSelect.value === 'space-mono') {
-        textarea.style.fontFamily = "Space Mono";
-    } else if (fontSelect.value === 'libre-bodoni') {
-        textarea.style.fontFamily = "Libre Bodoni";
-    } else {
-        textarea.style.fontFamily = "Josefin Sans";
-    }
-});
-
-colorInput.addEventListener('input', () => {
-    textarea.style.color = colorInput.value;
-});
-
-sizeSelect.addEventListener('change', () => {
-    if (sizeSelect.value === 'custom') {
-        Swal.fire({
-            title: 'Enter custom font size in px:',
-            input: 'number',
-            inputAttributes: {
-                autocapitalize: 'off',
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Apply',
-            showLoaderOnConfirm: true,
-            confirmButtonColor: "#0f5132",
-            cancelButtonColor: "#0f5132",
-            preConfirm: (customSize) => {
-                textarea.style.fontSize = customSize ? customSize + 'px' : '';
-            },
-            allowOutsideClick: () => !Swal.isLoading(),
-        });
-    } else {
-        textarea.style.fontSize = sizeSelect.value + 'px';
-    }
-    saveTextAreaToLocalStorage();
-});
-
-caseSelect.addEventListener('change', () => {
-    let selectedCase = caseSelect.value;
-    if (selectedCase === 'capitalize') {
-        textarea.style.textTransform = 'capitalize';
-    } else if (selectedCase === 'upper') {
-        textarea.style.textTransform = 'uppercase';
-    } else if (selectedCase === 'lower') {
-        textarea.style.textTransform = 'lowercase';
-    }
-    saveTextAreaToLocalStorage();
-});
-
-contentRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-        textarea.style.textAlign = radio.value;
+textboxes.forEach(textbox => {
+    textbox.addEventListener('click', () => {
+        selectedTextbox = textbox;
     });
-    saveTextAreaToLocalStorage();
-});
+
+    boldCheckbox.addEventListener('change', () => {
+        textbox.style.fontWeight = boldCheckbox.checked ? 'bold' : 'normal';
+    });
+
+    italicCheckbox.addEventListener('change', () => {
+        textbox.style.fontStyle = italicCheckbox.checked ? 'italic' : 'normal';
+    });
+
+    underlineCheckbox.addEventListener('change', () => {
+        textbox.style.textDecoration = underlineCheckbox.checked ? 'underline' : 'none';
+    });
+
+    fontSelect.addEventListener('change', () => {
+        if (fontSelect.value === 'space-mono') {
+            textbox.style.fontFamily = "Space Mono";
+        } else if (fontSelect.value === 'libre-bodoni') {
+            textbox.style.fontFamily = "Libre Bodoni";
+        } else {
+            textbox.style.fontFamily = "Josefin Sans";
+        }
+    });
+
+    colorInput.addEventListener('input', () => {
+        textbox.style.color = colorInput.value;
+    });
+
+    sizeSelect.addEventListener('change', () => {
+        if (sizeSelect.value === 'custom') {
+            Swal.fire({
+                title: 'Enter custom font size in px:',
+                input: 'number',
+                inputAttributes: {
+                    autocapitalize: 'off',
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Apply',
+                showLoaderOnConfirm: true,
+                confirmButtonColor: "#0f5132",
+                cancelButtonColor: "#0f5132",
+                preConfirm: (customSize) => {
+                    textbox.style.fontSize = customSize ? customSize + 'px' : '';
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+            });
+        } else {
+            textbox.style.fontSize = sizeSelect.value + 'px';
+            paras.forEach(para => {
+                para.style.fontSize = sizeSelect.value + 'px';
+            })
+        }
+    });
+
+    caseSelect.addEventListener('change', () => {
+        let selectedCase = caseSelect.value;
+        if (selectedCase === 'capitalize') {
+            textbox.style.textTransform = 'capitalize';
+        } else if (selectedCase === 'upper') {
+            textbox.style.textTransform = 'uppercase';
+        } else if (selectedCase === 'lower') {
+            textbox.style.textTransform = 'lowercase';
+        }
+    });
+
+    contentRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            textbox.style.textAlign = radio.value;
+        });
+    });
+})
 
 clearButton.addEventListener('click', () => {
-    textarea.value = '';
-    saveTextAreaToLocalStorage();
+    for (let i = 1; i <= 1300; i++) {
+        var textboxes = document.querySelectorAll("input[type='text']");
+        textboxes.forEach(function(textbox) {
+            textbox.value = "";
+        });
+    }
 });
-
-lettersButton.addEventListener('click', () => {
-    let letterCount = textarea.value.replace(/[^a-z]/gi, '').length;
-    Swal.fire({
-        title: 'Letter Count',
-        text: `Number of letters: ${letterCount}`,
-        confirmButtonColor: '#0f5132',
-    });
-});
-
-wordsButton.addEventListener('click', () => {
-    let wordCount = textarea.value.trim().split(/\s+/).filter(Boolean).length;
-    Swal.fire({
-        title: 'Word Count',
-        text: `Number of words: ${wordCount}`,
-        confirmButtonColor: '#0f5132',
-    });
-});
-
-renderSavedTextArea();

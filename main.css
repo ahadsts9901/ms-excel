@@ -84,3 +84,8 @@ h5,
 h6 {
     margin: none!important;
 }
+
+input[type="text"]:active,
+input[type="text"]:focus {
+    box-shadow: inset 0 0 4px #212121;
+}
