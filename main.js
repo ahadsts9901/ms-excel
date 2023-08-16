@@ -45,29 +45,10 @@ textboxes.forEach(textbox => {
     });
 
     sizeSelect.addEventListener('change', () => {
-        if (sizeSelect.value === 'custom') {
-            Swal.fire({
-                title: 'Enter custom font size in px:',
-                input: 'number',
-                inputAttributes: {
-                    autocapitalize: 'off',
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Apply',
-                showLoaderOnConfirm: true,
-                confirmButtonColor: "#0f5132",
-                cancelButtonColor: "#0f5132",
-                preConfirm: (customSize) => {
-                    textbox.style.fontSize = customSize ? customSize + 'px' : '';
-                },
-                allowOutsideClick: () => !Swal.isLoading(),
-            });
-        } else {
             textbox.style.fontSize = sizeSelect.value + 'px';
             paras.forEach(para => {
                 para.style.fontSize = sizeSelect.value + 'px';
             })
-        }
     });
 
     caseSelect.addEventListener('change', () => {
